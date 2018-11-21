@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.shortcuts import HttpResponse, render, Http404, redirect
 from django.contrib.auth import authenticate, login, logout
-from .models import Board
+from .models import Board, Column
 
 
 def index(request):
@@ -33,17 +33,55 @@ def login_view(request):
             return redirect('home')
         else:
             pass
-    return render(request, 'bootstrap/login.html', context)
+    return render(request, 'dashboard/login.html', context)
 
 
-def home(request):
+def home_view(request):
     context = {"user": request.user}
-    return render(request, 'bootstrap/home.html', context)
+    return render(request, 'dashboard/home.html', context)
 
 
-# para el logout...
-# TODO
 def logout_view(request):
     logout(request)
     context = {"user": request.user}
-    return render(request, 'bootstrap/logout.html', context)
+    return render(request, 'dashboard/logout.html', context)
+
+
+def boards_view(request):
+    if request.method == 'GET':
+        order_by = request.GET.get('order_by', 'create_date')
+        search = request.GET.get('search', '')
+        boards = Board.objects.filter(name__icontains=search).order_by('-{}'.format(order_by))
+        context = {'boards': boards}
+        return render(request, 'dashboard/dashboard.html', context)
+    elif request.method == 'POST':
+        name = request.POST.get('name', None)
+        slug = "{}-{}".format(name.lower().replace(' ','-'), datetime.today())
+        new_board = Board.objects.create(name=name, slug=slug)
+        order_by = request.GET.get('order_by', 'create_date')
+        search = request.GET.get('search', '')
+        boards = Board.objects.filter(name__icontains=search).order_by('-{}'.format(order_by))
+        context = {'boards': boards}
+        return render(request, 'dashboard/dashboard.html', context)
+    else:
+        return Http404('Not allowed')
+
+
+def columns_view(request):
+    if request.method == 'GET':
+        order_by = request.GET.get('order_by', 'create_date')
+        search = request.GET.get('search', '')
+        columns = Column.objects.filter(name__icontains=search).order_by('-{}'.format(order_by))
+        context = {'columns': columns}
+        return render(request, 'dashboard/board_columns.html', context)
+    elif request.method == 'POST':
+        name = request.POST.get('name', None)
+        slug = "{}-{}".format(name.lower().replace(' ','-'), datetime.today())
+        new_column = Column.objects.create(name=name, slug=slug)
+        order_by = request.GET.get('order_by', 'create_date')
+        search = request.GET.get('search', '')
+        columns = Column.objects.filter(name__icontains=search).order_by('-{}'.format(order_by))
+        context = {'columns': columns}
+        return render(request, 'dashboard/board_columns.html', context)
+    else:
+        return Http404('Not allowed')

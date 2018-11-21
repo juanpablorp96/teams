@@ -12,10 +12,9 @@
   </head>
   <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="home">LOGO</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<a href="home">
+    <img class="img-fluid" style="width: 100px; height: 70px;" src="http://www.psychosisresearch.com/wp-content/uploads/2016/10/TEAMS-Hedder.png">
+</a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
@@ -37,26 +36,61 @@
             BOARDS!
         </div>
     </div>
-    <div class='container'>
+    <div class="row">
         <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
+        <section class="footer">
+    {% if message %}
+    {{message}}
+    {% endif %}
+    <form method="post" action="">
+        {% csrf_token %}
+        <input type="text" name="name">
+        <button type="submit">Add board</button>
+    </form>
+</section>
     </div>
-    <div class='container'>
-        <div class='row'>
-            <div class='col'>
-                <div class="alert alert-primary" role="alert">
-                     Board name
-                </div>
-            </div>
-            <div class='col'>
-                <div class="alert alert-primary" role="alert">
-                     Board name
-                </div>
-            </div>
-        </div>
+
+
+
+<div class="row">
+    {% for board in boards %}
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{board.name}}</h5>
+        <a href="columns" class="btn btn-primary">Open board</a>
+      </div>
     </div>
+  </div>
+              {% endfor %}
+
+</div>
+
+     <div class='container'>
+
+  <a href="home">
+    <img class="img-fluid" style="width: 1000px; height: 130px;" src="http://www.psychosisresearch.com/wp-content/uploads/2016/10/TEAMS-Hedder.png">
+</a>
+     </div>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="boards">DASHBOARD</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="#">TEAMS</a>
+        </li>
+    </ul>
+  </div>
+</nav>
+
+
+
 
 
  </body>

@@ -13,11 +13,9 @@
   <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">LOGO</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
+<a href="home">
+    <img class="img-fluid" style="width: 100px; height: 70px;" src="http://www.psychosisresearch.com/wp-content/uploads/2016/10/TEAMS-Hedder.png">
+</a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
@@ -26,7 +24,6 @@
         <li class="nav-item">
         <a class="nav-link" href="#">TEAMS</a>
         </li>
-      </li>
         <li class="nav-item">
         <a class="nav-link" href="logout">LOGOUT</a>
         </li>
@@ -36,14 +33,36 @@
 </nav>
 {% if request.user %}
      <div class='container'>
-        <div class="alert alert-secondary" role="alert">
-            WELCOME!
+        <div class="display-4">
+            Hi!
             {{request.user.username}}
         </div>
     </div>
 {% else %}
 guest
 {% endif %}
+     <div class='container'>
+         <img class="col-md-12" style="width: 1000px; height: 500px;" src="https://media.giphy.com/media/xUPGGDNsLvqsBOhuU0/giphy.gif">
 
+     </div>
+     <div class='container'>
+
+  <a href="home">
+    <img class="img-fluid" style="width: 1000px; height: 130px;" src="http://www.psychosisresearch.com/wp-content/uploads/2016/10/TEAMS-Hedder.png">
+</a>
+     </div>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="boards">DASHBOARD</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="#">TEAMS</a>
+        </li>
+    </ul>
+  </div>
+</nav>
  </body>
 </html>
