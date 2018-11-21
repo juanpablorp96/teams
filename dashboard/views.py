@@ -8,7 +8,7 @@ def index(request):
     if request.method == 'GET':
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
-        boards = Board.objects.filter(name__icontains=search).order_by('-{}'.format(order_by))
+        boards = Board.objects.order_by('{}'.format(order_by))
         context = {'boards': boards}
         return render(request, 'dashboard/index.html', context)
     elif request.method == 'POST':
@@ -17,6 +17,28 @@ def index(request):
         new_board = Board.objects.create(name=name, slug=slug)
         context = {'message': 'Created!'}
         return render(request, 'dashboard/index.html', context)
+    else:
+        return Http404('Not allowed')
+
+
+def index_col(request):
+    if request.method == 'GET':
+        order_by = request.GET.get('order_by', 'create_date')
+        search = request.GET.get('search', '')
+        columns = Column.objects.order_by('{}'.format(order_by))
+        context = {'columns': columns}
+        return render(request, 'dashboard/index_col.html', context)
+    elif request.method == 'POST':
+        name = request.POST.get('name', None)
+        slug = "{}-{}".format(name.lower().replace(' ','-'), datetime.today())
+
+        # ACA ESTA EL PROBLEMA
+        new_column = Column.objects.create(board= boards.index(), name=name, slug=slug)
+        order_by = request.GET.get('order_by', 'create_date')
+        search = request.GET.get('search', '')
+        columns = Column.objects.order_by('{}'.format(order_by))
+        context = {'columns': columns}
+        return render(request, 'dashboard/index_col.html', context)
     else:
         return Http404('Not allowed')
 
@@ -51,7 +73,7 @@ def boards_view(request):
     if request.method == 'GET':
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
-        boards = Board.objects.filter(name__icontains=search).order_by('-{}'.format(order_by))
+        boards = Board.objects.order_by('{}'.format(order_by))
         context = {'boards': boards}
         return render(request, 'dashboard/dashboard.html', context)
     elif request.method == 'POST':
@@ -60,7 +82,7 @@ def boards_view(request):
         new_board = Board.objects.create(name=name, slug=slug)
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
-        boards = Board.objects.filter(name__icontains=search).order_by('-{}'.format(order_by))
+        boards = Board.objects.order_by('{}'.format(order_by))
         context = {'boards': boards}
         return render(request, 'dashboard/dashboard.html', context)
     else:
@@ -71,7 +93,7 @@ def columns_view(request):
     if request.method == 'GET':
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
-        columns = Column.objects.filter(name__icontains=search).order_by('-{}'.format(order_by))
+        columns = Column.objects.order_by('{}'.format(order_by))
         context = {'columns': columns}
         return render(request, 'dashboard/board_columns.html', context)
     elif request.method == 'POST':
@@ -80,7 +102,7 @@ def columns_view(request):
         new_column = Column.objects.create(name=name, slug=slug)
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
-        columns = Column.objects.filter(name__icontains=search).order_by('-{}'.format(order_by))
+        columns = Column.objects.order_by('{}'.format(order_by))
         context = {'columns': columns}
         return render(request, 'dashboard/board_columns.html', context)
     else:

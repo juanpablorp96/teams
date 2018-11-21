@@ -1,0 +1,30 @@
+<h1>Columns</h1>
+<section class="nav">
+</section>
+
+<section class="body-dashboard">
+
+    {% for column in columns %}
+        <div>
+            <h2>{{column.board.name}}</h2>
+            {% with name_board=column.board.name %}
+                {% for column in columns %}
+                    {%if column.board.name == name_board %}
+                        <h2>{{column.name}}</h2>
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}
+        </div>
+    {% endfor %}
+
+</section>
+<section class="footer">
+    {% if message %}
+    {{message}}
+    {% endif %}
+    <form method="post" action="">
+        {% csrf_token %}
+        <input type="text" name="name">
+        <button type="submit">Save</button>
+    </form>
+</section>
