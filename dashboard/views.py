@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.shortcuts import HttpResponse, render, Http404, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from .models import Board, Column
+from .models import Board, Column, Task
 
 
 def index(request):
@@ -107,5 +107,27 @@ def columns_view(request, board_id):
         columns = Column.objects.order_by('{}'.format(order_by))
         context = {'columns': columns, 'board': board}
         return render(request, 'dashboard/board_columns.html', context)
+    else:
+        return Http404('Not allowed')
+
+
+def tasks_view(request, column_id):
+    column = get_object_or_404(Column, pk=column_id)
+
+    if request.method == 'GET':
+        order_by = request.GET.get('order_by', 'create_date')
+        search = request.GET.get('search', '')
+        tasks = Task.objects.order_by('{}'.format(order_by))
+        context = {'tasks': tasks, 'column': column}
+        return render(request, 'dashboard/column_tasks.html', context)
+    elif request.method == 'POST':
+        title = request.POST.get('title', None)
+        description = request.POST.get('description', None)
+        new_task = Task.objects.create(column=column, title=title, description=description)
+        order_by = request.GET.get('order_by', 'create_date')
+        search = request.GET.get('search', '')
+        tasks = Task.objects.order_by('{}'.format(order_by))
+        context = {'tasks': tasks, 'column': column}
+        return render(request, 'dashboard/column_tasks.html', context)
     else:
         return Http404('Not allowed')

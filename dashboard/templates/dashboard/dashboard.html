@@ -47,7 +47,7 @@
     {% endif %}
     <form method="post" action="">
         {% csrf_token %}
-        <input type="text" name="name">
+        <input type="text" name="name" placeholder="Board name">
         <button type="submit">Add board</button>
     </form>
 </section>
@@ -61,7 +61,7 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">{{board.name}}</h5>
-        <a href="columns/{{board.pk}}/" class="btn btn-primary">Open board</a>
+        <a href="board={{board.pk}}" class="btn btn-primary">Open board</a>
       </div>
     </div>
   </div>

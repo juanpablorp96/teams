@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <title>Columns!</title>
+    <title>Tasks!</title>
   </head>
   <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -33,7 +33,7 @@
 </nav>
      <div class='container'>
         <div class="alert alert-secondary" role="alert">
-            Columns!
+            Tasks!
         </div>
     </div>
     <div class="row">
@@ -47,22 +47,23 @@
     {% endif %}
     <form method="post" action="">
         {% csrf_token %}
-        <input type="text" name="name" placeholder="Column name">
-        <button type="submit">Add column</button>
+        <input type="text" name="title" placeholder="Task title">
+        <input type="text" name="description" placeholder="Task description">
+        <button type="submit">Add task</button>
     </form>
 </section>
     </div>
 
-
-<h1>Board: {{ board.name }}</h1>
+<h1>Board: {{ column.board.name }} -> Column: {{ column.name }}</h1>
 
 <div class="row">
-{% for column in board.column_set.all %}
+{% for task in column.task_set.all %}
   <div class="col-sm-6">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">{{column.name}}</h5>
-        <a href="column={{column.pk}}" class="btn btn-primary">Open column</a>
+        <h5 class="card-title">{{task.title}}</h5>
+          <p class="card-text">{{task.description}}</p>
+        <a href="#" class="btn btn-primary">Open task</a>
       </div>
     </div>
   </div>
