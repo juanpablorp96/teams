@@ -1,5 +1,5 @@
 from datetime import datetime
-from django.shortcuts import HttpResponse, render, Http404, redirect
+from django.shortcuts import HttpResponse, render, Http404, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from .models import Board, Column
 
@@ -89,21 +89,23 @@ def boards_view(request):
         return Http404('Not allowed')
 
 
-def columns_view(request):
+def columns_view(request, board_id):
+    board = get_object_or_404(Board, pk=board_id)
+
     if request.method == 'GET':
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
         columns = Column.objects.order_by('{}'.format(order_by))
-        context = {'columns': columns}
+        context = {'columns': columns, 'board': board}
         return render(request, 'dashboard/board_columns.html', context)
     elif request.method == 'POST':
         name = request.POST.get('name', None)
         slug = "{}-{}".format(name.lower().replace(' ','-'), datetime.today())
-        new_column = Column.objects.create(name=name, slug=slug)
+        new_column = Column.objects.create(board=board, name=name, slug=slug)
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
         columns = Column.objects.order_by('{}'.format(order_by))
-        context = {'columns': columns}
+        context = {'columns': columns, 'board': board}
         return render(request, 'dashboard/board_columns.html', context)
     else:
         return Http404('Not allowed')

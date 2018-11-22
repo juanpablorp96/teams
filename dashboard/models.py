@@ -8,12 +8,11 @@ class Board(models.Model):
     create_date = models.DateField(default=timezone.now())
 
     def __str__(self):
-        return  self.name
+        return self.name
 
 
 class Column(models.Model):
     board = models.ForeignKey(Board, on_delete='cascade')
-    # index = models.IntegerField()
     name = models.CharField(max_length=50)
     slug = models.SlugField(blank=True, null=True)
     create_date = models.DateField(default=timezone.now())

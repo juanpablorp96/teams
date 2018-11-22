@@ -26,7 +26,7 @@
         </li>
       </li>
         <li class="nav-item">
-        <a class="nav-link" href="#">LOGOUT</a>
+        <a class="nav-link" href="logout">LOGOUT</a>
         </li>
     </ul>
   </div>
@@ -48,20 +48,21 @@
     <form method="post" action="">
         {% csrf_token %}
         <input type="text" name="name">
-        <button type="submit">Add board</button>
+        <button type="submit">Add column</button>
     </form>
 </section>
     </div>
 
 
+<h1>{{ board.name }}</h1>
 
 <div class="row">
-    {% for column in columns %}
+{% for column in board.column_set.all %}
   <div class="col-sm-6">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">{{column.name}}</h5>
-        <a href="#" class="btn btn-primary">Open board</a>
+        <a href="#" class="btn btn-primary">Open column</a>
       </div>
     </div>
   </div>
