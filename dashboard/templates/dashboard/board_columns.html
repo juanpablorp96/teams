@@ -1,15 +1,19 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+    <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <title>Columns!</title>
   </head>
+
   <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 <a href="home">
@@ -63,6 +67,7 @@
       <div class="card-body">
         <h5 class="card-title">{{column.name}}</h5>
         <a href="column={{column.pk}}" class="btn btn-primary">Open column</a>
+        <a href="edit_column={{column.pk}}" class="btn btn-secondary">Edit</a>
       </div>
     </div>
   </div>

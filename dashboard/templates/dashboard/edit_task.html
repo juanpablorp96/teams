@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Edit task</title>
+  </head>
+  <body>
+
+<form method='POST'>
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="exampleInputText">New task title</label>
+    <input type="text" class="form-control" id="exampleInputText" aria-describedby="textHelp" placeholder="Enter title" name="new_task_title">
+      <label for="exampleInputText">New task description</label>
+    <input type="text" class="form-control" id="exampleInputText2" aria-describedby="textHelp" placeholder="Enter description" name="new_task_description">
+  </div>
+  <button type="submit" class="btn btn-primary">Save changes</button>
+</form>
+        <a href="boards" class="btn btn-secondary">Cancel</a>
+
+  </body>
+</html>
