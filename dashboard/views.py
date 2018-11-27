@@ -177,12 +177,16 @@ def edit_column_view(request, column_id):
 
 
 def edit_task_view(request, task_id):
-    context = {}
+    users = User.objects.all()
+    context = {'users': users}
     if request.method == 'POST':
         title = request.POST.get('new_task_title', None)
         Task.objects.filter(pk=task_id).update(title=title)
         description = request.POST.get('new_task_description', None)
         Task.objects.filter(pk=task_id).update(description=description)
+        user_id = request.POST.get('selected_user')
+        in_charge = get_object_or_404(User, pk=user_id)
+        Task.objects.filter(pk=task_id).update(in_charge=in_charge)
         return redirect('boards')
     if request.method == 'GET':
         return render(request, 'dashboard/edit_task.html', context)
@@ -190,5 +194,40 @@ def edit_task_view(request, task_id):
     else:
         return Http404('Not allowed')
 
+# DELETE !!!!!!!!!!!!!!!!!!!!!1
 
 
+def delete_task_view(request, task_id):
+    context = {}
+    if request.method == 'POST':
+        Task.objects.filter(pk=task_id).delete()
+        return redirect('boards')
+    if request.method == 'GET':
+        return render(request, 'dashboard/delete_task.html', context)
+
+    else:
+        return Http404('Not allowed')
+
+
+def delete_column_view(request, column_id):
+    context = {}
+    if request.method == 'POST':
+        Column.objects.filter(pk=column_id).delete()
+        return redirect('boards')
+    if request.method == 'GET':
+        return render(request, 'dashboard/delete_column.html', context)
+
+    else:
+        return Http404('Not allowed')
+
+
+def delete_board_view(request, board_id):
+    context = {}
+    if request.method == 'POST':
+        Board.objects.filter(pk=board_id).delete()
+        return redirect('boards')
+    if request.method == 'GET':
+        return render(request, 'dashboard/delete_board.html', context)
+
+    else:
+        return Http404('Not allowed')

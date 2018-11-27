@@ -49,11 +49,13 @@
         {% csrf_token %}
         <input type="text" name="title" placeholder="Task title">
         <input type="text" name="description" placeholder="Task description">
+            <div><label name="exampleInputText">User in charge:</label>
         <select name="selected_user" id="inputState" class="form-control">
             {% for user in users %}
         <option value="{{user.pk}}">{{user}}</option>
             {% endfor %}
       </select>
+                </div>
         <button type="submit">Add task</button>
     </form>
 </section>
@@ -68,8 +70,9 @@
       <div class="card-body">
         <h5 class="card-title">{{task.title}}</h5>
           <p class="card-text">{{task.description}}</p>
-        <a href="#" class="btn btn-primary">Open task</a>
+          <p class="card-text">In charge: {{task.in_charge}}</p>
           <a href="edit_task={{task.pk}}" class="btn btn-secondary">Edit</a>
+          <a href="delete_task={{task.pk}}" class="btn btn-danger">Delete</a>
       </div>
     </div>
   </div>

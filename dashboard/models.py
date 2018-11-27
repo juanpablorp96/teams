@@ -15,7 +15,7 @@ class Board(models.Model):
 
 
 class Column(models.Model):
-    board = models.ForeignKey(Board, on_delete='cascade')
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     slug = models.SlugField(blank=True, null=True)
     create_date = models.DateField(default=django.utils.timezone.now)
@@ -25,11 +25,11 @@ class Column(models.Model):
 
 
 class Task(models.Model):
-    column = models.ForeignKey(Column, on_delete='cascade')
+    column = models.ForeignKey(Column, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=280)
     create_date = models.DateField(default=django.utils.timezone.now)
-    in_charge = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete='cascade', default=User)
+    in_charge = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=User)
 
     def __str__(self):
         return "{}-{}-{}".format(self.column.board.name, self.column.name, self.title)
