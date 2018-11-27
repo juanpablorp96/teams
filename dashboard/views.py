@@ -126,21 +126,23 @@ def columns_view(request, board_id):
 
 def tasks_view(request, column_id):
     column = get_object_or_404(Column, pk=column_id)
-
+    users = User.objects.all()
     if request.method == 'GET':
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
         tasks = Task.objects.order_by('{}'.format(order_by))
-        context = {'tasks': tasks, 'column': column}
+        context = {'tasks': tasks, 'column': column, 'users': users}
         return render(request, 'dashboard/column_tasks.html', context)
     elif request.method == 'POST':
         title = request.POST.get('title', None)
         description = request.POST.get('description', None)
-        new_task = Task.objects.create(column=column, title=title, description=description)
+        user_id = request.POST.get('selected_user')
+        in_charge = get_object_or_404(User, pk=user_id)
+        new_task = Task.objects.create(column=column, title=title, description=description, in_charge=in_charge)
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
         tasks = Task.objects.order_by('{}'.format(order_by))
-        context = {'tasks': tasks, 'column': column}
+        context = {'tasks': tasks, 'column': column, 'users': users}
         return render(request, 'dashboard/column_tasks.html', context)
     else:
         return Http404('Not allowed')
