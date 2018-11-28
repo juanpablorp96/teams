@@ -48,26 +48,50 @@
     <form method="post" action="">
         {% csrf_token %}
         <input type="text" name="name" placeholder="Board name">
+                    <div><label name="exampleInputText">Team associated (if it's empty, first create a team)</label>
+        <select name="selected_team" id="inputState" class="form-control">
+            {% for team in teams %}
+        <option value="{{team.pk}}">{{team}}</option>
+            {% endfor %}
+      </select>
+                </div>
         <button type="submit">Add board</button>
     </form>
 </section>
     </div>
 
+        <h5 class="card-title">Boards associated to teams where you are member</h5>
+        <h5 class="card-title">You are member of the following teams:</h5>
 
+        {% for team in teams %}
+            {% for member in team.members.all %}
+                {% if request.user == member %}
+                 <h5 class="card-title">{{team}}</h5>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
 
 <div class="row">
     {% for board in boards %}
+        {% for member in board.team.members.all %}
+            {% if request.user == member %}
   <div class="col-sm-6">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">{{board.name}}</h5>
+          <h5 class="card-title">Team:</h5>
+        <h5 class="card-title">{{board.team}}</h5>
+
         <a href="board={{board.pk}}" class="btn btn-primary">Open board</a>
           <a href="edit_board={{board.pk}}" class="btn btn-secondary">Edit</a>
           <a href="delete_board={{board.pk}}" class="btn btn-danger">Delete</a>
       </div>
     </div>
   </div>
-              {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+
 
 </div>
  <footer>

@@ -14,7 +14,7 @@ urlpatterns = [
     path('board=<int:board_id>', columns_view, name='columns'),
     path('column=<int:column_id>', tasks_view, name='tasks'),
     path('index_col', index_col, name='index_col'),
-    path('register', create_user_view, name='create_user'),
+    path('register', create_user_view, name='register'),
     path('modal', TemplateView.as_view(template_name='dashboard/modal.html')),
     path('edit_board=<int:board_id>', edit_board_view, name='edit_board'),
     path('edit_column=<int:column_id>', edit_column_view, name='edit_column'),

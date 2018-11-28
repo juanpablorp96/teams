@@ -3,6 +3,7 @@ from django.shortcuts import render, Http404, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import Board, Column, Task
+from team.models import Team
 
 
 def index(request):
@@ -87,16 +88,20 @@ def boards_view(request):
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
         boards = Board.objects.order_by('{}'.format(order_by))
-        context = {'boards': boards}
+        teams = Team.objects.all()
+        context = {'boards': boards, 'teams': teams}
         return render(request, 'dashboard/dashboard.html', context)
     elif request.method == 'POST':
         name = request.POST.get('name', None)
+        team_id = request.POST.get('selected_team', None)
+        team_associated = get_object_or_404(Team, pk=team_id)
         slug = "{}-{}".format(name.lower().replace(' ', '-'), datetime.today())
-        new_board = Board.objects.create(name=name, slug=slug)
+        new_board = Board.objects.create(name=name, slug=slug, team=team_associated)
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
         boards = Board.objects.order_by('{}'.format(order_by))
-        context = {'boards': boards}
+        teams = Team.objects.all()
+        context = {'boards': boards, 'teams': teams}
         return render(request, 'dashboard/dashboard.html', context)
     else:
         return Http404('Not allowed')
