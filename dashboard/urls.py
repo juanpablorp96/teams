@@ -1,6 +1,4 @@
 from django.urls import path
-from django.views.generic import TemplateView
-
 from .views import home_view, index, login_view, logout_view, boards_view, columns_view, tasks_view
 from .views import create_user_view, edit_column_view, edit_task_view, edit_board_view, delete_task_view
 from .views import delete_column_view, delete_board_view

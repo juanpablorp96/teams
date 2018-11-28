@@ -4,13 +4,14 @@ from django.contrib.auth.models import User
 from .models import Team
 
 
+# View teams manager
 def team_manager_view(request):
     users = User.objects.all()
 
     if request.method == 'GET':
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
-        teams = Team.objects.order_by('{}'.format(order_by))
+        teams = Team.objects.filter(name__icontains=search).order_by('{}'.format(order_by))
         context = {'teams': teams, 'users': users}
         return render(request, 'team/team_manager.html', context)
     elif request.method == 'POST':
@@ -23,7 +24,6 @@ def team_manager_view(request):
         new_team = Team.objects.create(name=name, slug=slug)
         new_team.members.set(users_list)
         order_by = request.GET.get('order_by', 'create_date')
-        search = request.GET.get('search', '')
         teams = Team.objects.order_by('{}'.format(order_by))
         context = {'teams': teams, 'users': users}
 

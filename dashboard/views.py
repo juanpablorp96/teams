@@ -64,7 +64,7 @@ def boards_view(request):
     if request.method == 'GET':
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
-        boards = Board.objects.order_by('{}'.format(order_by))
+        boards = Board.objects.filter(name__icontains=search).order_by('{}'.format(order_by))
         teams = Team.objects.all()
         context = {'boards': boards, 'teams': teams}
         return render(request, 'dashboard/dashboard.html', context)
@@ -75,7 +75,6 @@ def boards_view(request):
         slug = "{}-{}".format(name.lower().replace(' ', '-'), datetime.today())
         Board.objects.create(name=name, slug=slug, team=team_associated)
         order_by = request.GET.get('order_by', 'create_date')
-        search = request.GET.get('search', '')
         boards = Board.objects.order_by('{}'.format(order_by))
         teams = Team.objects.all()
         context = {'boards': boards, 'teams': teams}
@@ -86,20 +85,20 @@ def boards_view(request):
 
 # View that show the columns of a specific board
 def columns_view(request, board_id):
-    board = get_object_or_404(Board, pk=board_id)
 
     if request.method == 'GET':
+        board = get_object_or_404(Board, pk=board_id)
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
-        columns = Column.objects.order_by('{}'.format(order_by))
+        columns = Column.objects.filter(board=board).filter(name__icontains=search).order_by('{}'.format(order_by))
         context = {'columns': columns, 'board': board}
         return render(request, 'dashboard/board_columns.html', context)
     elif request.method == 'POST':
+        board = get_object_or_404(Board, pk=board_id)
         name = request.POST.get('name', None)
         slug = "{}-{}".format(name.lower().replace(' ', '-'), datetime.today())
         Column.objects.create(board=board, name=name, slug=slug)
         order_by = request.GET.get('order_by', 'create_date')
-        search = request.GET.get('search', '')
         columns = Column.objects.order_by('{}'.format(order_by))
         context = {'columns': columns, 'board': board}
         return render(request, 'dashboard/board_columns.html', context)
@@ -109,22 +108,22 @@ def columns_view(request, board_id):
 
 # View that show the tasks of a specific column
 def tasks_view(request, column_id):
-    column = get_object_or_404(Column, pk=column_id)
     users = User.objects.all()
     if request.method == 'GET':
+        column = get_object_or_404(Column, pk=column_id)
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
-        tasks = Task.objects.order_by('{}'.format(order_by))
+        tasks = Task.objects.filter(column=column).filter(title__icontains=search).order_by('{}'.format(order_by))
         context = {'tasks': tasks, 'column': column, 'users': users}
         return render(request, 'dashboard/column_tasks.html', context)
     elif request.method == 'POST':
+        column = get_object_or_404(Column, pk=column_id)
         title = request.POST.get('title', None)
         description = request.POST.get('description', None)
         user_id = request.POST.get('selected_user')
         in_charge = get_object_or_404(User, pk=user_id)
         Task.objects.create(column=column, title=title, description=description, in_charge=in_charge)
         order_by = request.GET.get('order_by', 'create_date')
-        search = request.GET.get('search', '')
         tasks = Task.objects.order_by('{}'.format(order_by))
         context = {'tasks': tasks, 'column': column, 'users': users}
         return render(request, 'dashboard/column_tasks.html', context)
