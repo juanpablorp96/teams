@@ -31,7 +31,7 @@ def index_col(request):
         return render(request, 'dashboard/index_col.html', context)
     elif request.method == 'POST':
         name = request.POST.get('name', None)
-        slug = "{}-{}".format(name.lower().replace(' ','-'), datetime.today())
+        slug = "{}-{}".format(name.lower().replace(' ', '-'), datetime.today())
 
         # ACA ESTA EL PROBLEMA
         new_column = Column.objects.create(board= boards.index(), name=name, slug=slug)
@@ -91,7 +91,7 @@ def boards_view(request):
         return render(request, 'dashboard/dashboard.html', context)
     elif request.method == 'POST':
         name = request.POST.get('name', None)
-        slug = "{}-{}".format(name.lower().replace(' ','-'), datetime.today())
+        slug = "{}-{}".format(name.lower().replace(' ', '-'), datetime.today())
         new_board = Board.objects.create(name=name, slug=slug)
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
@@ -113,7 +113,7 @@ def columns_view(request, board_id):
         return render(request, 'dashboard/board_columns.html', context)
     elif request.method == 'POST':
         name = request.POST.get('name', None)
-        slug = "{}-{}".format(name.lower().replace(' ','-'), datetime.today())
+        slug = "{}-{}".format(name.lower().replace(' ', '-'), datetime.today())
         new_column = Column.objects.create(board=board, name=name, slug=slug)
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')

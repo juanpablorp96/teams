@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'bootstrap4',
     'dashboard.apps.DashboardConfig',
+    'team.apps.TeamConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
