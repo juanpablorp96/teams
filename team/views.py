@@ -1,6 +1,5 @@
 from datetime import datetime
 from django.shortcuts import render, Http404, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import Team
 
@@ -33,6 +32,7 @@ def team_manager_view(request):
         return Http404('Not allowed')
 
 
+# Edit team view, update the object attributes
 def edit_team_view(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
 
@@ -54,6 +54,7 @@ def edit_team_view(request, team_id):
         return Http404('Not allowed')
 
 
+# Delete team view, delete the specific team object and use CASCADE to delete the boards, columns and tasks related
 def delete_team_view(request, team_id):
     context = {}
     if request.method == 'POST':

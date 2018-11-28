@@ -33,6 +33,7 @@
 </nav>
 {% if request.user %}
      <div class='container'>
+         <h5>If your username don't appear, is because you didn't login</h5>
         <div class="display-4">
             Hi!
             {{request.user.username}}
