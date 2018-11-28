@@ -29,7 +29,7 @@
         <a class="nav-link" href="boards">DASHBOARD</a>
       </li>
         <li class="nav-item">
-        <a class="nav-link" href="#">TEAMS</a>
+        <a class="nav-link" href="team_manager">TEAMS</a>
         </li>
       </li>
         <li class="nav-item">
@@ -76,8 +76,28 @@
 
 
 
-# aca va el for
- <footer>
+<div class="row">
+{% for team in teams %}
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{team.name}}</h5>
+        <h5 class="card-title">Members:</h5>
+
+          {% for member in team.members.all %}
+
+        <h5 class="card-title">{{member.username}}</h5>
+              {% endfor %}
+
+
+          <a href="edit_team={{team.pk}}" class="btn btn-secondary">Edit</a>
+          <a href="delete_team={{team.pk}}" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+              {% endfor %}
+
+</div> <footer>
      <div class='container'>
 
   <a href="home">
@@ -92,7 +112,7 @@
         <a class="nav-link" href="boards">DASHBOARD</a>
       </li>
         <li class="nav-item">
-        <a class="nav-link" href="#">TEAMS</a>
+        <a class="nav-link" href="team_manager">TEAMS</a>
         </li>
     </ul>
   </div>

@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from .views import home_view, index, login_view, logout_view, boards_view, columns_view, index_col, tasks_view
 from .views import create_user_view, edit_column_view, edit_task_view, edit_board_view, delete_task_view
 from .views import delete_column_view, delete_board_view
-from team.views import team_manager_view
+from team.views import team_manager_view, edit_team_view, delete_team_view
 
 urlpatterns = [
     path('home', home_view, name='home'),
@@ -23,6 +23,8 @@ urlpatterns = [
     path('delete_column=<int:column_id>', delete_column_view, name='delete_column'),
     path('delete_board=<int:board_id>', delete_board_view, name='delete_board'),
     path('team_manager', team_manager_view, name='team_manager'),
+    path('edit_team=<int:team_id>', edit_team_view, name='edit_team'),
+    path('delete_team=<int:team_id>', delete_team_view, name='delete_team'),
 
     path('',  index),
 ]
