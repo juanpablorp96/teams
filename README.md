@@ -1,7 +1,8 @@
+# TEAMS APP
 Index:
 http://127.0.0.1:8000/teams/
 
-# Data base have some example data
+// Data base have some example data
 
 Project
 Create a django app that fit the following requirements using django with function views and class based
