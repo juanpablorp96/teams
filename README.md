@@ -4,7 +4,7 @@ http://127.0.0.1:8000/teams/
 
 // Data base have some example data
 
-Project
+Project:
 Create a django app that fit the following requirements using django with function views and class based
 views, postgresql as database and bootstrap 4 as frontend toolkit.
 
