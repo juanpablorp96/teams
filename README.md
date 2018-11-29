@@ -5,10 +5,12 @@ http://127.0.0.1:8000/teams/
 // Data base have some example data
 
 Project:
+
 Create a django app that fit the following requirements using django with function views and class based
 views, postgresql as database and bootstrap 4 as frontend toolkit.
 
 Requirements:
+
 Login & Registration: The app should allow user authentication by email and password. (facebook
 optional) also will provide a registration form to create a new user with email and password.
 
