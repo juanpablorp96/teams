@@ -99,7 +99,7 @@ def columns_view(request, board_id):
         slug = "{}-{}".format(name.lower().replace(' ', '-'), datetime.today())
         Column.objects.create(board=board, name=name, slug=slug)
         order_by = request.GET.get('order_by', 'create_date')
-        columns = Column.objects.order_by('{}'.format(order_by))
+        columns = Column.objects.filter(board=board).order_by('{}'.format(order_by))
         context = {'columns': columns, 'board': board}
         return render(request, 'dashboard/board_columns.html', context)
     else:
@@ -108,9 +108,9 @@ def columns_view(request, board_id):
 
 # View that show the tasks of a specific column
 def tasks_view(request, column_id):
-    users = User.objects.all()
     if request.method == 'GET':
         column = get_object_or_404(Column, pk=column_id)
+        users = column.board.team.members.all()
         order_by = request.GET.get('order_by', 'create_date')
         search = request.GET.get('search', '')
         tasks = Task.objects.filter(column=column).filter(title__icontains=search).order_by('{}'.format(order_by))
@@ -118,13 +118,14 @@ def tasks_view(request, column_id):
         return render(request, 'dashboard/column_tasks.html', context)
     elif request.method == 'POST':
         column = get_object_or_404(Column, pk=column_id)
+        users = column.board.team.members.all()
         title = request.POST.get('title', None)
         description = request.POST.get('description', None)
         user_id = request.POST.get('selected_user')
         in_charge = get_object_or_404(User, pk=user_id)
         Task.objects.create(column=column, title=title, description=description, in_charge=in_charge)
         order_by = request.GET.get('order_by', 'create_date')
-        tasks = Task.objects.order_by('{}'.format(order_by))
+        tasks = Task.objects.filter(column=column).order_by('{}'.format(order_by))
         context = {'tasks': tasks, 'column': column, 'users': users}
         return render(request, 'dashboard/column_tasks.html', context)
     else:
@@ -164,7 +165,8 @@ def edit_column_view(request, column_id):
 
 # Edit task view, update the object attributes
 def edit_task_view(request, task_id):
-    users = User.objects.all()
+    task = get_object_or_404(Task, pk=task_id)
+    users = task.column.board.team.members.all()
     context = {'users': users}
     if request.method == 'POST':
         title = request.POST.get('new_task_title', None)
